@@ -8,7 +8,7 @@ node {
       stage('Build') {
       steps {
         sh 'docker build -t xorapp .'
-        sh 'docker tag my-flask-app $DOCKER_IMAGE'
+        sh 'docker tag xorapp $DOCKER_IMAGE'
       }
     }
 

@@ -8,7 +8,7 @@ pipeline {
         sh 'docker tag xorapp $DOCKER_IMAGE'
       }
     }
-   }
+ 
 
 
      stage('Deploy') {
@@ -20,4 +20,4 @@ pipeline {
       }
     }
   }
-  }
+  

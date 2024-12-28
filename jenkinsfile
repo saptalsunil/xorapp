@@ -5,6 +5,13 @@ node {
     def dockerImage = 'saptalsunil/xorapp:v1.1'  // Replace with the Docker image you want to pull
 
     try {
+      stage('Build') {
+      steps {
+        sh 'docker build -t xorapp .'
+        sh 'docker tag my-flask-app $DOCKER_IMAGE'
+      }
+    }
+
         stage('Docker Login') {
             echo "Logging into Docker Hub..."
             // Log into Docker Hub using the credentials

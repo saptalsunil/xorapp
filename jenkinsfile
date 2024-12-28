@@ -20,4 +20,38 @@ pipeline {
       }
     }
   }
-}  
+}
+stage('Removing container') {
+ steps{         
+   echo "Removing container..."
+            // Verify that the image was pulled
+            sh "docker stop xorapp"
+            sh "docker rm xorapp"
+            echo "Removed container..."
+}       
+ } 
+stage('Run container') {
+            steps{ 
+           echo "Executing container..."
+            // Verify that the image was pulled
+            sh "docker run -d -p 9090:9090 --name xorapp $DOCKER_IMAGE"
+        } 
+}
+stage('Verify node version') {
+         steps{ 
+           echo "Listing node version..."
+            sh "docker exec -i xorapp node --version"
+        }
+        }
+        stage('Verify playwirght version') {
+steps{         
+   echo "Listing node version..."
+            sh "docker exec -i xorapp playwright --version"
+        }
+      }  
+        stage('Verify code server version') {
+steps{       
+     echo "Listing node version..."
+            sh "docker exec -i xorapp code-server --version"
+}      
+  }

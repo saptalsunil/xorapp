@@ -1,75 +1,12 @@
-node {
-    // Define Docker Hub credentials
-    def dockerUsername = 'saptalsunil'  // Replace with your Docker Hub username
-    def dockerPassword = 'Versace@12345'  // Replace with your Docker Hub password or personal access token
-    def dockerImage = 'saptalsunil/xorapp:v1.1'  // Replace with the Docker image you want to pull
+pipeline {
+  agent any
 
-    try {
-      stage('Build') {
+  stages {
+    stage('Build') {
       steps {
         sh 'docker build -t xorapp .'
         sh 'docker tag xorapp $DOCKER_IMAGE'
       }
     }
-
-        stage('Docker Login') {
-            echo "Logging into Docker Hub..."
-            // Log into Docker Hub using the credentials
-            sh """
-                echo ${dockerPassword} | docker login --username ${dockerUsername} --password-stdin
-            """
-        }
-
-        
-        stage('Pull Docker Image') {
-            echo "Pulling Docker image: ${dockerImage}"
-            // Pull the Docker image from Docker Hub
-            sh "docker pull ${dockerImage}"
-            }
-
-        stage('Verify Docker Image') {
-            echo "Listing Docker images..."
-            // Verify that the image was pulled
-            sh "docker images"
-        }
-        
-        stage('Removing container') {
-            echo "Removing container..."
-            // Verify that the image was pulled
-            sh "docker stop xorapp"
-            sh "docker rm xorapp"
-            echo "Removed container..."
-        }
-        
-        stage('Run container') {
-            echo "Executing container..."
-            // Verify that the image was pulled
-            sh "docker run -d -p 9090:9090 --name xorapp saptalsunil/xorapp:v1.1"
-        }
-        
-            stage('Verify node version') {
-            echo "Listing node version..."
-            sh "docker exec -i xorapp node --version"
-        }
-        
-        stage('Verify playwirght version') {
-            echo "Listing node version..."
-            sh "docker exec -i xorapp playwright --version"
-        }
-        
-        stage('Verify code server version') {
-            echo "Listing node version..."
-            sh "docker exec -i xorapp code-server --version"
-        }
-    } catch (Exception e) {
-        // Handle errors in the pipeline
-        currentBuild.result = 'FAILURE'
-        throw e
-    } finally {
-        stage('Docker Logout') {
-            echo "Logging out of Docker..."
-            // Logout from Docker Hub to clean up the session
-            sh 'docker logout'
-        }
-    }
-}
+   }
+  }

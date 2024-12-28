@@ -22,7 +22,7 @@ pipeline {
   }
 }
 stage('Removing container') {
- steps{         
+ steps {         
    echo "Removing container..."
             // Verify that the image was pulled
             sh "docker stop xorapp"
@@ -31,26 +31,26 @@ stage('Removing container') {
 }       
  } 
 stage('Run container') {
-            steps{ 
+            steps { 
            echo "Executing container..."
             // Verify that the image was pulled
             sh "docker run -d -p 9090:9090 --name xorapp $DOCKER_IMAGE"
         } 
 }
 stage('Verify node version') {
-         steps{ 
+         steps { 
            echo "Listing node version..."
             sh "docker exec -i xorapp node --version"
         }
         }
         stage('Verify playwirght version') {
-steps{         
+steps {         
    echo "Listing node version..."
             sh "docker exec -i xorapp playwright --version"
         }
       }  
         stage('Verify code server version') {
-steps{       
+steps {       
      echo "Listing node version..."
             sh "docker exec -i xorapp code-server --version"
 }      

@@ -17,6 +17,7 @@ RUN npm install -g playwright
 COPY . .
 
 # Install Visual Studio Code Server
+    RUN powershell -Command \
     Invoke-WebRequest -Uri "https://github.com/coder/code-server/archive/refs/tags/${env:CODE_SERVER_VERSION}.zip" -OutFile "code-server-${env:CODE_SERVER_VERSION}.zip"; \
     If ($?) { \
         Write-Host "Download successful"; \

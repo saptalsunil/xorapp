@@ -2,7 +2,7 @@
 FROM node:18.7.0
 
 # Set environment variables for code-server installation
-ENV CODE_SERVER_VERSION=v4.96.2  # Specify the version to install
+ENV CODE_SERVER_VERSION=v4.96.2  
 
 # Set the working directory in the container
 WORKDIR /usr/src/app

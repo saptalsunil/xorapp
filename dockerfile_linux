@@ -14,12 +14,7 @@ RUN npm install -g playwright
 COPY . .
 
 # Install Visual Studio Code Server
-Invoke-WebRequest -Uri "https://github.com/coder/code-server/releases/download/${env:CODE_SERVER_VERSION}/code-server-${env:CODE_SERVER_VERSION}-windows-amd64.zip" -OutFile "code-server.zip"; \
-    Expand-Archive -Path "code-server.zip" -DestinationPath "C:\\code-server"; \
-    Remove-Item -Force "code-server.zip"; \
-	
-# Set proper permissions for the code-server directory
-    icacls "C:\\code-server" /grant "Users":(OI)(CI)F /T
+RUN curl -fsSL https://code-server.dev/install.sh | sh
 
 # Expose port for application
 EXPOSE 9090

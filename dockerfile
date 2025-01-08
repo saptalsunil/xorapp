@@ -15,7 +15,7 @@ COPY . .
 
 # Install Visual Studio Code Server
     RUN powershell -Command \
-    Invoke-WebRequest -Uri "https://github.com/coder/code-server/releases/v4.96.2.zip" -OutFile "code-server.zip"; \
+    Invoke-WebRequest -Uri "https://github.com/coder/code-server/archive/refs/tags/v4.96.2.zip" -OutFile "code-server.zip"; \
     Expand-Archive -Path "code-server.zip" -DestinationPath "C:\\code-server"; \
     Remove-Item -Force "code-server.zip"; \
 	

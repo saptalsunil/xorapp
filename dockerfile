@@ -14,7 +14,8 @@ RUN npm install -g playwright
 COPY . .
 
 # Install Visual Studio Code Server
-Invoke-WebRequest -Uri "https://github.com/coder/code-server/archives/refs/tags/v.4.96.1.zip" -OutFile "code-server.zip"; \
+    RUN powershell -Command \
+    Invoke-WebRequest -Uri "https://github.com/coder/code-server/archives/refs/tags/v.4.96.1.zip" -OutFile "code-server.zip"; \
     Expand-Archive -Path "code-server.zip" -DestinationPath "C:\\code-server"; \
     Remove-Item -Force "code-server.zip"; \
 	

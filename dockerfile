@@ -16,8 +16,8 @@ COPY . .
 # Install Visual Studio Code Server
     RUN powershell -Command \
     Invoke-WebRequest -Uri "https://github.com/coder/code-server/archive/refs/tags/v4.96.2.zip" -OutFile "code-server-4.96.2.zip"; \
-    Expand-Archive -Path "code-server.zip" -DestinationPath "C:\\code-server"; \
-    Remove-Item -Force "code-server.zip"; \
+    Expand-Archive -Path "code-server-4.96.2.zip" -DestinationPath "C:\\code-server"; \
+    Remove-Item -Force "code-server-4.96.2.zip"; \
 	
 # Set proper permissions for the code-server directory
     icacls "C:\\code-server" /grant "Users":(OI)(CI)F /T
@@ -28,4 +28,4 @@ ENV PASSWORD=your_password_here
 ENV URL=http://localhost:9090
 
 # Command to run the application
-CMD ["code-server", "--bind-addr", "0.0.0.0:9090", "--auth", "none"]
+CMD ["C:\\code-server\\code-server.exe", "--bind-addr", "0.0.0.0:9090", "--auth", "none"]

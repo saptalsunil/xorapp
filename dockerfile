@@ -2,7 +2,7 @@
 FROM node:18.7.0
 
 # Set environment variables for code-server installation
-ENV CODE_SERVER_VERSION=v4.96.2  
+#ENV CODE_SERVER_VERSION=v4.96.2  
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -18,28 +18,24 @@ COPY . .
 
 # Install Visual Studio Code Server
     RUN powershell -Command \
-    Invoke-WebRequest -Uri "https://github.com/coder/code-server/archive/refs/tags/${env:CODE_SERVER_VERSION}.zip" -OutFile "code-server-${env:CODE_SERVER_VERSION}.zip"; \
+    Invoke-WebRequest -Uri "https://github.com/coder/code-server/archive/refs/tags/v4.96.2.zip" -OutFile "code-server.zip"; \
+    # Check download success
     If ($?) { \
         Write-Host "Download successful"; \
-        # Check if the zip file exists before trying to extract
-        If (Test-Path "code-server-${env:CODE_SERVER_VERSION}.zip") { \
-            Expand-Archive -Path "code-server-${env:CODE_SERVER_VERSION}.zip" -DestinationPath "C:\\code-server"; \
-            Remove-Item -Force "code-server-${env:CODE_SERVER_VERSION}.zip"; \
-            Write-Host "Code-server extracted successfully"; \
-        } Else { \
-            Write-Host "Code-server zip file does not exist"; exit 1; \
-        } \
+        # Extract the downloaded zip file
+        Expand-Archive -Path "code-server.zip" -DestinationPath "C:\\code-server"; \
+        Remove-Item -Force "code-server.zip"; \
+        Write-Host "Code-server extracted successfully"; \
     } Else { \
         Write-Host "Download failed"; exit 1; \
     }; \
-	
+
 # Set proper permissions for the code-server directory
     If (Test-Path "C:\\code-server") { \
         icacls "C:\\code-server" /grant "Users":(OI)(CI)F /T; \
     } Else { \
         Write-Host "Code-server directory does not exist"; exit 1; \
     }
-
 
 # Expose port for application
 EXPOSE 9090

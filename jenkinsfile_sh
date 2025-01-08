@@ -4,8 +4,8 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        bat 'docker build -t xorapp .'
-        bat 'docker tag xorapp $DOCKER_IMAGE'
+        sh 'docker build -t xorapp .'
+        sh 'docker tag xorapp $DOCKER_IMAGE'
       }
     }
  
@@ -14,8 +14,8 @@ pipeline {
      stage('Deploy') {
       steps {
         withCredentials([usernamePassword(credentialsId: "${DOCKER_CRED}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-          bat "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin docker.io"
-          bat 'docker pubat $DOCKER_IMAGE'
+          sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin docker.io"
+          sh 'docker push $DOCKER_IMAGE'
         }
       }
     }
@@ -25,8 +25,8 @@ stage('Removing container') {
  steps {         
    echo "Removing container..."
             // Verify that the image was pulled
-            bat "docker stop xorapp"
-            bat "docker rm xorapp"
+            sh "docker stop xorapp"
+            sh "docker rm xorapp"
             echo "Removed container..."
 }       
  } 
@@ -34,24 +34,24 @@ stage('Run container') {
             steps { 
            echo "Executing container..."
             // Verify that the image was pulled
-            bat "docker run -d -p 9090:9090 --name xorapp $DOCKER_IMAGE"
+            sh "docker run -d -p 9090:9090 --name xorapp $DOCKER_IMAGE"
         } 
 }
 stage('Verify node version') {
          steps { 
            echo "Listing node version..."
-            bat "docker exec -i xorapp node --version"
+            sh "docker exec -i xorapp node --version"
         }
         }
         stage('Verify playwirght version') {
 steps {         
    echo "Listing node version..."
-            bat "docker exec -i xorapp playwright --version"
+            sh "docker exec -i xorapp playwright --version"
         }
       }  
         stage('Verify code server version') {
 steps {       
      echo "Listing node version..."
-            bat "docker exec -i xorapp code-server --version"
+            sh "docker exec -i xorapp code-server --version"
 }      
   }

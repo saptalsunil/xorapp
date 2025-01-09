@@ -18,9 +18,9 @@ COPY . .
 
 # Install Visual Studio Code Server
     RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
-	RUN apt-get update && apt-get install -y wget
+	RUN apt-get update && apt-get install -y curl
     # Download code-server tarball
-    RUN wget -v -fsSL --retry 5 --no-check-certificate https://github.com/coder/code-server/releases/download/v4.96.1/code-server-4.96.1-linux-amd64.tar.gz -O code-server.tar.gz && \
+    RUN curl -v -fsSL --retry 5 --no-check-certificate https://github.com/coder/code-server/releases/download/v4.96.1/code-server-4.96.1-linux-amd64.tar.gz -O code-server.tar.gz && \
 	echo "Download complete" && \
 	
 	# Check the file type to ensure it's a valid tar.gz

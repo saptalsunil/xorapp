@@ -30,6 +30,8 @@ COPY . .
 	tar -xvzf code-server.tar.gz && \
 	echo "Extraction complete" && \
 	
+	ls -l && \
+	
     # Move the extracted code-server binary to the correct location	
     mv code-server-*/code-server /usr/local/bin/ && \
 	echo "Binary moved to /usr/local/bin/" && \

@@ -17,12 +17,27 @@ RUN npm install -g playwright
 COPY . .
 
 # Install Visual Studio Code Server
-    RUN apt-get update && apt-get install -y wget
-
+    
+	RUN apt-get update && apt-get install -y wget
+    # Download code-server tarball
     RUN wget -v -fsSL --retry 5 https://github.com/coder/code-server/releases/download/v4.96.1/code-server-4.96.1-linux-amd64.tar.gz -O code-server.tar.gz && \
-    tar -xvzf code-server.tar.gz && \
+	echo "Download complete" && \
+	
+	# Check the file type to ensure it's a valid tar.gz
+    file code-server.tar.gz && \
+	
+	# Extract the tarball
+	tar -xvzf code-server.tar.gz && \
+	echo "Extraction complete" && \
+	
+    # Move the extracted code-server binary to the correct location	
     mv code-server-*/code-server /usr/local/bin/ && \
-    rm -rf code-server.tar.gz code-server-*
+	echo "Binary moved to /usr/local/bin/" && \
+	
+	# Clean up the tarball and extracted directory
+    rm -rf code-server.tar.gz code-server-* && \
+	 echo "Cleanup complete"
+	
 	
 # Extract and install code-server	
 #	RUN tar -xvzf /tmp/code-server.tar.gz && \

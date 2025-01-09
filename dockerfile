@@ -14,8 +14,12 @@ RUN npm install -g playwright
 COPY . .
 
 # Install Visual Studio Code Server
-RUN curl -fsSL https://code-server.dev/install.sh | sh
-
+RUN apt-get update && apt-get install -y curl
+RUN curl -v -fsSL https://github.com/coder/code-server/releases/download/v4.14.1/code-server-4.14.1-linux-x86_64.tar.gz -o code-server.tar.gz && \
+    tar -xvzf code-server.tar.gz && \
+    mv code-server-*/code-server /usr/local/bin/ && \
+    rm -rf code-server.tar.gz code-server-*
+	
 # Expose port for application
 EXPOSE 9090
 ENV PASSWORD=your_password_here

@@ -20,7 +20,7 @@ COPY . .
     RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
 	RUN apt-get update && apt-get install -y curl
     # Download code-server tarball
-    RUN curl -v -fsSL --retry 5 --no-check-certificate https://github.com/coder/code-server/releases/download/v4.96.1/code-server-4.96.1-linux-amd64.tar.gz -O code-server.tar.gz && \
+    RUN curl -v -fsSL --retry 10 --retry-delay 5 --max-time 300 --no-check-certificate --proxy --insecure https://github.com/coder/code-server/releases/download/v4.96.1/code-server-4.96.1-linux-amd64.tar.gz -o code-server.tar.gz && \
 	echo "Download complete" && \
 	
 	# Check the file type to ensure it's a valid tar.gz

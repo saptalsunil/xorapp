@@ -18,9 +18,9 @@ COPY . .
 
 # Install Visual Studio Code Server
   RUN powershell -Command \
-    RUN Invoke-WebRequest -Uri https://code-server.dev/install.sh -OutFile install.ps1; \
-    powershell -ExecutionPolicy Bypass -File install.ps1; \
-    Remove-Item -Force install.ps1
+    Invoke-WebRequest -Uri https://github.com/coder/code-server/releases/download/v4.14.1/code-server-4.14.1-win-x86_64.zip -OutFile code-server.zip; \
+    Expand-Archive -Path code-server.zip -DestinationPath C:\code-server; \
+    Remove-Item -Force code-server.zip
 
 # Expose port for application
 EXPOSE 9090
@@ -31,4 +31,4 @@ ENV URL=http://localhost:9090
 WORKDIR C:\\code-server
 
 # Command to run the application
-CMD ["C:\\code-server\\code-server.exe", "--bind-addr", "0.0.0.0:9090", "--auth", "none"]
+CMD ["cmd", "/c", "C:\\code-server\\code-server.exe", "--bind-addr", "0.0.0.0:9090", "--auth", "none"]

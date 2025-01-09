@@ -7,6 +7,9 @@ WORKDIR /usr/src/app
 # Copy the package.json and package-lock.json files
 COPY package*.json ./
 
+# Copy the downloaded tarball into the container
+COPY code-server-4.96.1-linux-amd64.tar.gz /tmp/code-server.tar.gz
+
 # Install app dependencies
 RUN npm install -g playwright
 
@@ -14,12 +17,17 @@ RUN npm install -g playwright
 COPY . .
 
 # Install Visual Studio Code Server
-RUN apt-get update && apt-get install -y wget
+#RUN apt-get update && apt-get install -y wget
 
-RUN wget -v -fsSL --retry 5 https://github.com/coder/code-server/releases/download/v4.96.1/code-server-4.96.1-linux-amd64.tar.gz -o code-server.tar.gz && \
-    tar -xvzf code-server.tar.gz && \
+#RUN wget -v -fsSL --retry 5 https://github.com/coder/code-server/releases/download/v4.96.1/code-server-4.96.1-linux-amd64.tar.gz -o code-server.tar.gz && \
+#    tar -xvzf code-server.tar.gz && \
+#    mv code-server-*/code-server /usr/local/bin/ && \
+#    rm -rf code-server.tar.gz code-server-*
+	
+# Extract and install code-server	
+	RUN tar -xvzf /tmp/code-server.tar.gz && \
     mv code-server-*/code-server /usr/local/bin/ && \
-    rm -rf code-server.tar.gz code-server-*
+    rm -rf /tmp/code-server.tar.gz code-server-*
 	
 # Expose port for application
 EXPOSE 9090

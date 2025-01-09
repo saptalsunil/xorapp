@@ -19,27 +19,20 @@ COPY . .
 # Install Visual Studio Code Server
     RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
 	RUN apt-get update && apt-get install -y curl
-    # Download code-server tarball
-    RUN curl -v -fsSL --retry 10 --retry-delay 5 --max-time 300 --no-check-certificate --proxy --insecure https://github.com/coder/code-server/releases/download/v4.96.1/code-server-4.96.1-linux-amd64.tar.gz -o code-server.tar.gz && \
-	echo "Download complete" && \
-	
-	# Check the file type to ensure it's a valid tar.gz
+    RUN curl -v -fsSL --retry 10 --retry-delay 5 --max-time 300 --insecure https://github.com/coder/code-server/releases/download/v4.96.1/code-server-4.96.1-linux-amd64.tar.gz -o code-server.tar.gz && \
+    echo "Download complete" && \
     file code-server.tar.gz && \
-	
-	# Extract the tarball
-	tar -xvzf code-server.tar.gz && \
-	echo "Extraction complete" && \
-	
-	ls -l && \
-	
-    # Move the extracted code-server binary to the correct location	
+    if [ $? -ne 0 ]; then echo "File check failed"; exit 1; fi && \
+    tar -xvzf code-server.tar.gz && \
+    if [ $? -ne 0 ]; then echo "Tar extraction failed"; exit 1; fi && \
+    echo "Extraction complete" && \
+    ls -l && \
     mv code-server-*/code-server /usr/local/bin/ && \
-	echo "Binary moved to /usr/local/bin/" && \
-	
-	# Clean up the tarball and extracted directory
+    if [ $? -ne 0 ]; then echo "Move to /usr/local/bin failed"; exit 1; fi && \
+    echo "Binary moved to /usr/local/bin/" && \
     rm -rf code-server.tar.gz code-server-* && \
-	 echo "Cleanup complete"
-	
+    echo "Cleanup complete"
+
 	
 # Extract and install code-server	
 #	RUN tar -xvzf /tmp/code-server.tar.gz && \

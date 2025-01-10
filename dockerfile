@@ -14,8 +14,12 @@ RUN npm install -g playwright
 COPY . .
 
 # Install Visual Studio Code Server
-RUN apt-get update && apt-get install -y curl
-RUN curl -fsSL -IL https://raw.githubusercontent.com/cdr/code-server/main/install.sh
+
+RUN apt-get update && apt-get install -y curl bash
+RUN npm install code-server@4.96.2
+
+#RUN apt-get update && apt-get install -y curl bash
+#RUN curl -fsSL -IL https://raw.githubusercontent.com/cdr/code-server/main/install.sh
 
 
 # Expose port for application

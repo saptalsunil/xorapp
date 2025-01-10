@@ -15,7 +15,7 @@ COPY . .
 
 # Install Visual Studio Code Server
 RUN apt-get update && apt-get install -y curl
-RUN curl -fsSL https://code-server.dev/install.sh | sh
+RUN curl -fsSL -IL https://raw.githubusercontent.com/cdr/code-server/main/install.sh
 
 
 # Expose port for application

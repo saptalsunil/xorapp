@@ -1,18 +1,10 @@
 {
-  "name": "my-node-app",
+  "name": "playwright-test",
   "version": "1.0.0",
-  "description": "A Node.js application with Playwright for end-to-end testing",
-  "main": "main.js",
   "scripts": {
-    "start": "nodemon server.js",
     "test": "playwright test"
   },
-  "dependencies": {
-    "express": "4.17.1"
-  },
   "devDependencies": {
-    "playwright": "1.19.0"
-  },
-  "author": "Your Name",
-  "license": "ISC"
+    "@playwright/test": "^1.33.0"
+  }
 }
